@@ -22,28 +22,28 @@ struct Style {
     }
 }
 
-class AMCalendarViewController: UIViewController {
+public class AMCalendarViewController: UIViewController {
     public lazy var calendar: Calendar = {
         var calendarStyle = Calendar(identifier: Style.identifier)
         calendarStyle.timeZone = Style.timeZone
         return calendarStyle
     }()
 
-    var proceedButton = UIButton(type: .system)
-    var completion: ((Date, Date) -> Void)?
+    public var proceedButton = UIButton(type: .system)
+    public var completion: ((Date, Date) -> Void)?
 
-    var startDateCache = Date()
-    var endDateCache = Date()
-    var startOfMonthCache = Date()
-    var endOfMonthCache = Date()
-    var monthInfoForSection = [Int: (firstDay: Int, daysTotal: Int)]()
-    var todayIndexPath: IndexPath?
+    public var startDateCache = Date()
+    public var endDateCache = Date()
+    public var startOfMonthCache = Date()
+    public var endOfMonthCache = Date()
+    public var monthInfoForSection = [Int: (firstDay: Int, daysTotal: Int)]()
+    public var todayIndexPath: IndexPath?
 
-    var startSelectedIndexPath: IndexPath?
-    var endISelectedndexPath: IndexPath?
+    public var startSelectedIndexPath: IndexPath?
+    public var endISelectedndexPath: IndexPath?
 
-    var isBottom = false
-    var maxDays: Int? = 14
+    public var isBottom = false
+    public var maxDays: Int? = 14
 
     init(startDate: Date, endDate: Date) {
         startDateCache = endDate
@@ -55,7 +55,7 @@ class AMCalendarViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         configUI()
         waitForComplete()
@@ -72,7 +72,7 @@ class AMCalendarViewController: UIViewController {
         }
     }
 
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
 
@@ -176,7 +176,7 @@ extension AMCalendarViewController: UICollectionViewDelegate, UICollectionViewDa
         return CGSize(width: ceilWidth, height: side)
     }
 
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: AMHeader.identifier, for: indexPath) as! AMHeader
 
@@ -199,7 +199,7 @@ extension AMCalendarViewController: UICollectionViewDelegate, UICollectionViewDa
         return AMHeader()
     }
 
-    func numberOfSections(in _: UICollectionView) -> Int {
+    public func numberOfSections(in _: UICollectionView) -> Int {
         guard startDateCache <= endDateCache else { fatalError("Start date cannot be later than end date.") }
 
         var firstDayOfStartMonthComponents = calendar.dateComponents([.era, .year, .month], from: startDateCache)
@@ -232,7 +232,7 @@ extension AMCalendarViewController: UICollectionViewDelegate, UICollectionViewDa
         return (firstDay: firstWeekdayOfMonthIndex, daysTotal: rangeOfDaysInMonth.count)
     }
 
-    func collectionView(_: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var monthOffsetComponents = DateComponents()
         monthOffsetComponents.month = section
 
@@ -245,7 +245,7 @@ extension AMCalendarViewController: UICollectionViewDelegate, UICollectionViewDa
         return 42
     }
 
-    func collectionView(_: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let (firstDayIndex, _) = self.monthInfoForSection[indexPath.section] else { return }
         guard let cell = cell as? AMCell else { return }
 
@@ -306,7 +306,7 @@ extension AMCalendarViewController: UICollectionViewDelegate, UICollectionViewDa
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AMCell.identifier, for: indexPath) as! AMCell
         cell.makeStyle(.empty)
 
@@ -331,7 +331,7 @@ extension AMCalendarViewController: UICollectionViewDelegate, UICollectionViewDa
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let (firstDayIndex, _) = self.monthInfoForSection[indexPath.section] else { return }
 
         if let todayIndexPath = self.todayIndexPath {
