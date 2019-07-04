@@ -31,7 +31,7 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '10.0'
   s.swift_version = ['5.0']
 
-  s.source_files = 'Colendar/Source'
+  s.source_files = 'Colendar/Source/AMCalendarViewController.swift'
   
   # s.resource_bundles = {
   #   'AMCalendar' => ['AMCalendar/Assets/*.png']
